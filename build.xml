@@ -279,6 +279,9 @@
     <tar destfile="${tar.name}-${version.simple}.noarch.tar.gz" compression="gzip" longfile="gnu">
       <tarfileset dir="${dist.dir}" prefix="${tar.name}-${version.simple}"/>
     </tar>
+    
+    <!-- Copy jar to lib dir -->
+    <copy file="${dist.dir}/${jar.name}-${version.simple}.jar" todir="${lib.dir}" overwrite="true" flatten="true"/>
   </target>
 
   <target name="clean" description="clean up">

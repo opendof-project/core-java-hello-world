@@ -10,9 +10,10 @@ Running the Hello World Provider and Requestor
 
 The configuration for the hello world provider and requestor can be found at the top of the java file fore each application. The host must be set to point to the OpenDOF router. The credentials must also be set to use a a domain, identity, and key that the OpenDOF router supports.
 
-After building the applications, run the both the helloWorldProvider and helloWorldRequestor applications. Either application can be started first, however the requestor only waits for the provider for the configured timeout (default 60 seconds).
+After building the applications, run the both the HelloWorldProvider and HelloWorldRequestor applications. Either application can be started first, however the requestor only waits for the provider for the configured timeout (default 60 seconds).
 
-	bin/iot-service start
+	java -cp "lib/*" org.opendof.example.HelloWorldProvider
+    java -cp "lib/*" org.opendof.example.HelloWorldRequestor
 
 Build Instructions
 ===========

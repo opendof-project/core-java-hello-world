@@ -38,8 +38,10 @@ public class HelloWorldRequestor {
             helloWorldRequestor.run();
         } catch (DOFException e) {
             System.out.println("Failed: " + e);
+            System.exit(1);
         }
         helloWorldRequestor.destroy();
+        System.exit(0);
     }
 
     private final DOF dof;
