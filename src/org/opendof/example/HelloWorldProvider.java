@@ -1,8 +1,26 @@
+/*
+**  Copyright (c) 2010-2017, Panasonic Corporation.
+**
+**  Permission to use, copy, modify, and/or distribute this software for any
+**  purpose with or without fee is hereby granted, provided that the above
+**  copyright notice and this permission notice appear in all copies.
+**
+**  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+**  WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+**  MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+**  ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+**  WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+**  ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+**  OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+*/
+
 package org.opendof.example;
 
 import org.opendof.core.ReconnectingStateListener;
 import org.opendof.core.oal.*;
+import org.opendof.core.oal.value.DOFString;
 import org.opendof.core.transport.inet.InetTransport;
+
 
 public class HelloWorldProvider extends DOFObject.DefaultProvider{
 
@@ -52,17 +70,25 @@ public class HelloWorldProvider extends DOFObject.DefaultProvider{
     }
 
     public void start() throws Exception{
+        //Create the credentials.
         DOFCredentials credentials = createCredentials();
 
+        //Create the connection.
         connection = createConnection(credentials, HOST, PORT);
+        //Add the reconnecting state listener, which will cause it to connect and it and will reconnect it if the connection closes for some reason
         connection.addStateListener(new ReconnectingStateListener());
 
+        //Create the system.
         system = createSystem(credentials);
+        //Wait for the system to be authorized/ready.
         system.waitAuthorized(TIMEOUT);
 
+        //Create the object identifier to provide the interface on.
         DOFObjectID providerID = DOFObjectID.create(PROVIDER_OBJECT_ID);
+        //Create the object associated with the system.
         DOFObject provider = system.createObject(providerID);
 
+        //Start providing.
         provider.beginProvide(HelloWorldInterface.DEFINITION, this);
     }
 
@@ -105,6 +131,18 @@ public class HelloWorldProvider extends DOFObject.DefaultProvider{
                 .setCredentials(credentials)
                 .build();
         return dof.createSystem(config);
+    }
+
+    //This object extends DefaultProvider, so we just want to override the 'get' method, which is all we need to support
+    //for hello world
+    @Override
+    public void get(DOFOperation.Provide operation, DOFRequest.Get request, DOFInterface.Property property) {
+        if(property.getItemID() == HelloWorldInterface.PHRASE_ITEM_ID){
+            request.respond(new DOFString("Hello World!"));
+        }
+        else{
+            request.respond(new DOFNotSupportedException());
+        }
     }
 
 }
