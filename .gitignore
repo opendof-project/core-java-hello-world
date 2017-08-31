@@ -1,0 +1,11 @@
+/bin/
+/out/
+*.classpath
+*.project
+*.iml
+.idea
+/.build/
+/lib/
+*.pom
+*SNAPSHOT*
+.settings
