@@ -26,6 +26,7 @@ To build, make sure any dependencies are available in a configured Ivy
 repository, and execute `ant dist` in the root of the project (this is
 the default ant target).
 
-##Runtime Prerequisites
+Runtime Prerequisites
+===========
 
 A Java Runtime Environment (JRE) of 1.7 or greater is required.
