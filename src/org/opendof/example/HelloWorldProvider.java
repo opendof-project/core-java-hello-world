@@ -78,10 +78,14 @@ public class HelloWorldProvider extends DOFObject.DefaultProvider{
         //Add the reconnecting state listener, which will cause it to connect and it and will reconnect it if the connection closes for some reason
         connection.addStateListener(new ReconnectingStateListener());
 
+        System.out.println("Connection created");
+
         //Create the system.
         system = createSystem(credentials);
         //Wait for the system to be authorized/ready.
         system.waitAuthorized(TIMEOUT);
+
+        System.out.println("System authorized");
 
         //Create the object identifier to provide the interface on.
         DOFObjectID providerID = DOFObjectID.create(PROVIDER_OBJECT_ID);
@@ -90,6 +94,8 @@ public class HelloWorldProvider extends DOFObject.DefaultProvider{
 
         //Start providing.
         provider.beginProvide(HelloWorldInterface.DEFINITION, this);
+
+        System.out.println("Providing");
     }
 
     /**
