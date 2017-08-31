@@ -143,10 +143,13 @@ public class HelloWorldProvider extends DOFObject.DefaultProvider{
     //for hello world
     @Override
     public void get(DOFOperation.Provide operation, DOFRequest.Get request, DOFInterface.Property property) {
+
         if(property.getItemID() == HelloWorldInterface.PHRASE_ITEM_ID){
+            System.out.println("Request received for phrase property");
             request.respond(new DOFString("Hello World!"));
         }
         else{
+            System.out.println("Request received for unsupported property");
             request.respond(new DOFNotSupportedException());
         }
     }
